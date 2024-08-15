@@ -1,13 +1,13 @@
 <template>
-    <div>
+    <SiteLayout>
+        <Head title="Loja"/>
         <h1>SHOP</h1>
-    </div>
+    </SiteLayout>
 </template>
-<script>
-export default {
-    
-}
+<script setup>
+    import SiteLayout from '@/Layouts/SiteLayout.vue';
+    import { Head } from '@inertiajs/vue3';
 </script>
 <style lang="">
-    
+
 </style>

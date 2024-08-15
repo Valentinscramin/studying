@@ -1,13 +1,13 @@
 <template>
-<div>
-    <h1>About Us Page</h1>
-</div>
+    <SiteLayout>
+        <Head title="Sobre Nós"/>
+        <h1>About Us Page</h1>
+    </SiteLayout>
 </template>
 
 <script setup>
-// defineProps({
-//   title: String
-// });
+    import SiteLayout from '@/Layouts/SiteLayout.vue';
+    import { Head } from '@inertiajs/vue3';
 </script>
 
 <style lang="scss" scoped>

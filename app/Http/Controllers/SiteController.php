@@ -11,12 +11,14 @@ class SiteController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Site/Home', [
-            'canLogin' => Route::getRoutes()->hasNamedRoute('login'),
-            'canRegister' => Route::getRoutes()->hasNamedRoute('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
-        ]);
+        return Inertia::render('Site/Home');
+
+        // return Inertia::render('Site/Home', [
+        //     'canLogin' => Route::getRoutes()->hasNamedRoute('login'),
+        //     'canRegister' => Route::getRoutes()->hasNamedRoute('register'),
+        //     'laravelVersion' => Application::VERSION,
+        //     'phpVersion' => PHP_VERSION,
+        // ]);
     }
 
     public function shop()

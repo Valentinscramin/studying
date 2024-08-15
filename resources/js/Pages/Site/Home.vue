@@ -1,12 +1,13 @@
 <template>
-<div>
-    <NavBar />
-    <h1>This is Home Page</h1>
-</div>
+    <SiteLayout>
+        <Head title="Inicio"/>
+        <h1>This is Home Page</h1>
+    </SiteLayout>
 </template>
 
 <script setup>
-import NavBar from '@/Components/NavBar.vue';
+    import SiteLayout from '@/Layouts/SiteLayout.vue';
+    import { Head } from '@inertiajs/vue3';
 </script>
 
 <style lang="scss" scoped>

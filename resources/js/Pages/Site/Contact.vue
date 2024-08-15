@@ -1,13 +1,13 @@
-<template lang="">
-    <div>
+<template>
+    <SiteLayout>
+        <Head title="Contato"/>
         <h1>Contact</h1>
-    </div>
+    </SiteLayout>
 </template>
-<script>
-export default {
-    
-}
+<script setup>
+    import SiteLayout from '@/Layouts/SiteLayout.vue';
+    import { Head } from '@inertiajs/vue3';
 </script>
 <style lang="">
-    
+
 </style>
