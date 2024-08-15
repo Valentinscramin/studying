@@ -42,6 +42,7 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">Nome</th>
+                                        <th scope="col">Categoria</th>
                                         <th scope="col">Descrição</th>
                                         <th scope="col">Preço</th>
                                         <th scope="col">&nbsp;</th>
@@ -50,6 +51,7 @@
                                 <tbody>
                                     <tr class="" v-for="(item, index) in products.data" :key="index">
                                         <td scope="row">{{ item . name }}</td>
+                                        <td>{{ item . categorie . name }}</td>
                                         <td>{{ item . description }}</td>
                                         <td>{{ item . price }}</td>
                                         <td>

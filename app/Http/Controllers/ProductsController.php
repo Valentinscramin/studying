@@ -16,7 +16,7 @@ class ProductsController extends Controller
     public function index()
     {
         return Inertia::render('DashBoard/Product/Home', [
-            'products' => Products::paginate(10),
+            'products' => Products::with('categorie')->paginate(10),
         ]);
     }
 
@@ -25,7 +25,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        return Inertia::render('DashBoard/Product/Create',  ['categories' => Categories::where('active', 1)->get()]);
+        return Inertia::render('DashBoard/Product/Create', ['categories' => Categories::where('active', 1)->get()]);
     }
 
     /**
@@ -58,7 +58,7 @@ class ProductsController extends Controller
     {
         return Inertia::render('DashBoard/Product/Edit', [
             'product' => $product,
-            'categories' => Categories::where('active', 1)->get()
+            'categories' => Categories::where('active', 1)->get(),
         ]);
     }
 
