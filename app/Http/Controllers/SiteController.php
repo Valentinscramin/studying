@@ -32,7 +32,7 @@ class SiteController extends Controller
     }
 
     public function contact()
-    {
+    { 
         return Inertia::render('Site/Contact');
     }
 }
