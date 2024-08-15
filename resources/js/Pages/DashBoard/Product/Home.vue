@@ -53,10 +53,10 @@
                                         <td>{{ item . description }}</td>
                                         <td>{{ item . price }}</td>
                                         <td>
-                                            <Link class="btn btn-warning btn-sm inline-block"
+                                            <Link class="btn btn-warning btn-sm"
                                                 :href="route('products.edit', item.id)">Editar
                                             </Link>
-                                            <button type="submit" class="btn btn-danger btn-sm inline-block"
+                                            <button type="submit" class="btn btn-danger btn-sm ml-2"
                                                 @click="deleteProduct(item.id)">Excluir
                                             </button>
                                         </td>

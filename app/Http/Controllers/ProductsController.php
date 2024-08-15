@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductsRequest;
+use App\Models\Categories;
 use App\Models\Products;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -24,7 +25,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        return Inertia::render('DashBoard/Product/Create');
+        return Inertia::render('DashBoard/Product/Create',  ['categories' => Categories::where('active', 1)->get()]);
     }
 
     /**
@@ -35,6 +36,7 @@ class ProductsController extends Controller
         Products::create([
             'name' => $productsRequest->name,
             'description' => $productsRequest->description,
+            'categorie_id' => $productsRequest->category,
             'price' => $productsRequest->price,
         ]);
 
@@ -56,6 +58,7 @@ class ProductsController extends Controller
     {
         return Inertia::render('DashBoard/Product/Edit', [
             'product' => $product,
+            'categories' => Categories::where('active', 1)->get()
         ]);
     }
 
@@ -67,6 +70,7 @@ class ProductsController extends Controller
         $product->update([
             'name' => $productsRequest->name,
             'description' => $productsRequest->description,
+            'categorie_id' => $productsRequest->category,
             'price' => $productsRequest->price,
         ]);
 

@@ -34,6 +34,15 @@
                             </div>
 
                             <div class="mb-3">
+                                <select class="form-select" v-model="form.category">
+                                    <option selected disabled>Categoria</option>
+                                    <option v-for="(item, index) in categories" :key="index" :value="item.id">
+                                        {{ item . name }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
                                 <button type="submit" class="btn btn-success" :disabled="form.processing"> <span
                                         v-if="form.processing">Criando...</span>
                                     <span v-else>Salvar</span></button>
@@ -55,12 +64,14 @@
     } from '@inertiajs/vue3';
 
     defineProps({
-        errors: Object
+        errors: Object,
+        categories: Array
     });
 
     const form = useForm({
         name: '',
         description: '',
+        category: '',
         price: '',
     });
 

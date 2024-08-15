@@ -49,12 +49,12 @@
                                 <tbody>
                                     <tr class="" v-for="(item, index) in categories.data" :key="index">
                                         <td scope="row">{{ item . name }}</td>
-                                        <td>{{ item . active }}</td>
+                                        <td>{{ item . active ? 'Ligado' : 'Desligado' }}</td>
                                         <td>
-                                            <Link class="btn btn-warning btn-sm inline-block"
+                                            <Link class="btn btn-warning btn-sm"
                                                 :href="route('categories.edit', item.id)">Editar
                                             </Link>
-                                            <button type="submit" class="btn btn-danger btn-sm inline-block"
+                                            <button type="submit" class="btn btn-danger btn-sm ml-2"
                                                 @click="deleteCategorie(item.id)">Excluir
                                             </button>
                                         </td>
