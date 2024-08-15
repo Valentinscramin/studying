@@ -14,7 +14,9 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        return Inertia::render('DashBoard/Product/Home', ['products' => Products::all()]);
+        return Inertia::render('DashBoard/Product/Home', [
+            'products' => Products::paginate(10),
+        ]);
     }
 
     /**
@@ -53,7 +55,7 @@ class ProductsController extends Controller
     public function edit(Products $product)
     {
         return Inertia::render('DashBoard/Product/Edit', [
-            'product' => $product
+            'product' => $product,
         ]);
     }
 
@@ -77,6 +79,8 @@ class ProductsController extends Controller
     public function destroy(Products $product)
     {
         $product->delete();
-        return redirect()->to('/products')->with('message', "O produto: ".$product->name.' foi excluido com sucesso!');
+        return redirect()
+            ->to('/products')
+            ->with('message', 'O produto: ' . $product->name . ' foi excluido com sucesso!');
     }
 }

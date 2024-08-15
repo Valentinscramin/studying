@@ -5,8 +5,10 @@
         Link,
         useForm
     } from '@inertiajs/vue3';
+    import Pagination from '@/Components/Pagination.vue';
+
     defineProps({
-        products: Array
+        products: [Object, Array],
     });
 
     const form = useForm({});
@@ -26,7 +28,6 @@
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Produtos</h2>
         </template>
-
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -47,7 +48,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="" v-for="(item, index) in products" :key="index">
+                                    <tr class="" v-for="(item, index) in products.data" :key="index">
                                         <td scope="row">{{ item . name }}</td>
                                         <td>{{ item . description }}</td>
                                         <td>{{ item . price }}</td>
@@ -62,6 +63,7 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <Pagination :pagination="products.links"></Pagination>
                         </div>
                     </div>
                 </div>
