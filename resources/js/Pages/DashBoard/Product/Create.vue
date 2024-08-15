@@ -35,7 +35,7 @@
 
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-success" :disabled="form.processing"> <span
-                                        v-if="form.processing">Atualizando...</span>
+                                        v-if="form.processing">Criando...</span>
                                     <span v-else>Salvar</span></button>
                             </div>
                         </form>
