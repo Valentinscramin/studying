@@ -13,6 +13,14 @@
                         <Link class="btn btn-warning btn-sm m-10" :href="route('products.index')">Voltar</Link>
                         <form @submit.prevent="save()">
                             <div class="mb-3">
+                                <img :src="form.imgPreview || 'https://cdn.pixabay.com/photo/2014/06/03/19/38/test-361512_640.jpg'"
+                                    alt="" height="300px" width="200">
+                            </div>
+                            <div class="mb-3">
+                                <input class="form-control" type="file" id="image" @change="handleFileUpload">
+                                <div v-if="errors.img" class="text-red-500">{{ errors . img }}</div>
+                            </div>
+                            <div class="mb-3">
                                 <label for="name" class="form-label">Nome</label>
                                 <input type="text" v-model="form.name" id="name" class="form-control"
                                     placeholder="" aria-describedby="helpId" />
@@ -36,7 +44,8 @@
                             <div class="mb-3">
                                 <select class="form-select" v-model="form.category">
                                     <option selected disabled>Categoria</option>
-                                    <option v-for="(item, index) in categories" :key="index" :value="item.id">
+                                    <option v-for="(item, index) in categories" :key="index"
+                                        :value="item.id">
                                         {{ item . name }}
                                     </option>
                                 </select>
@@ -68,17 +77,33 @@
         categories: Array
     });
 
+    const handleFileUpload = (event) => {
+        const file = event.target.files[0];
+        form.img = file;
+        if (file) {
+            form.imgPreview = URL.createObjectURL(file);
+        }
+    };
+
     const form = useForm({
         name: '',
         description: '',
         category: '',
         price: '',
+        img: '',
+        imgPreview: ''
     });
 
     const save = () => {
-        const res = form.post(route('products.store'));
-        if (res) {
-            form.reset();
-        }
+        const res = form.post(route('products.store'), {
+            forceFormData: true,
+            data: form,
+            onSuccess: () => {
+                form.reset();
+            },
+            onError: (errors) => {
+                console.error(error);
+            }
+        });
     }
 </script>

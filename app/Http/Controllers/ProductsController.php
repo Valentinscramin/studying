@@ -6,6 +6,7 @@ use App\Http\Requests\ProductsRequest;
 use App\Models\Categories;
 use App\Models\Products;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ProductsController extends Controller
@@ -38,6 +39,7 @@ class ProductsController extends Controller
             'description' => $productsRequest->description,
             'categorie_id' => $productsRequest->category,
             'price' => $productsRequest->price,
+            'img' => $productsRequest->file('img')->store('images', 'public')
         ]);
 
         return redirect()->to('/products')->with('message', 'Produto Criado Com Sucesso!');
@@ -67,11 +69,18 @@ class ProductsController extends Controller
      */
     public function update(ProductsRequest $productsRequest, Products $product)
     {
+        if ($productsRequest->hasFile('img')) {
+            if ($product->img && Storage::exists('public/' . $product->img)) {
+                Storage::delete('public/' . $product->img);
+            }
+        }
+
         $product->update([
             'name' => $productsRequest->name,
             'description' => $productsRequest->description,
             'categorie_id' => $productsRequest->category,
             'price' => $productsRequest->price,
+            'img' => $productsRequest->file('img')->store('images', 'public')
         ]);
 
         return redirect()->to('/products')->with('message', 'Produto Atualizado Com Sucesso!');

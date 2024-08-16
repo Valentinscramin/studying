@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoriesRequest;
 use App\Models\Categories;
-use Illuminate\Http\Request;
+use GuzzleHttp\Psr7\Request;
 use Inertia\Inertia;
 
 class CategoriesController extends Controller
@@ -25,7 +25,6 @@ class CategoriesController extends Controller
 
     public function update(CategoriesRequest $categoriesRequest, Categories $category)
     {
-
         $category->update([
             'name' => $categoriesRequest->name,
             'active' => $categoriesRequest->active,
@@ -44,5 +43,11 @@ class CategoriesController extends Controller
         return Inertia::render('DashBoard/Categories/Edit', [
             'categorie' => $category,
         ]);
+    }
+
+    public function getProductsByCat(Categories $category)
+    {
+        
+        return response()->json($category->products($category->id), 201);
     }
 }

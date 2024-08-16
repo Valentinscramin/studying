@@ -16,26 +16,31 @@
                         </div>
                         <form @submit.prevent="save()">
                             <div class="mb-3">
+                                <img :src="form.imgPreview || 'https://cdn.pixabay.com/photo/2014/06/03/19/38/test-361512_640.jpg'"
+                                    alt="" height="300px" width="200">
+                            </div>
+                            <div class="mb-3">
+                                <input class="form-control" type="file" id="image" @change="handleFileUpload">
+                                <div v-if="errors.img" class="text-red-500">{{ errors . img }}</div>
+                            </div>
+                            <div class="mb-3">
                                 <label for="name" class="form-label">Nome</label>
                                 <input type="text" v-model="form.name" id="name" class="form-control"
                                     placeholder="" aria-describedby="helpId" />
                                 <div v-if="errors.name" class="text-red-500">{{ errors . name }}</div>
                             </div>
-
                             <div class="mb-3">
                                 <label for="description" class="form-label">Descrição</label>
                                 <input type="text" v-model="form.description" id="description" class="form-control"
                                     placeholder="" aria-describedby="helpId" />
                                 <div v-if="errors.description" class="text-red-500">{{ errors . description }}</div>
                             </div>
-
                             <div class="mb-3">
                                 <label for="price" class="form-label">Preço</label>
                                 <input type="text" v-model="form.price" id="price" class="form-control"
                                     placeholder="" aria-describedby="helpId" />
                                 <div v-if="errors.price" class="text-red-500">{{ errors . price }}</div>
                             </div>
-
                             <div class="mb-3">
                                 <select class="form-select" v-model="form.category">
                                     <option disabled>Categoria</option>
@@ -45,13 +50,11 @@
                                     </option>
                                 </select>
                             </div>
-
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-success" :disabled="form.processing"> <span
                                         v-if="form.processing">Atualizando...</span>
                                     <span v-else>Salvar</span></button>
                             </div>
-
                         </form>
                     </div>
                 </div>
@@ -74,17 +77,33 @@
         categories: Array
     });
 
+    const handleFileUpload = (event) => {
+        const file = event.target.files[0];
+        form.img = file;
+        if (file) {
+            form.imgPreview = URL.createObjectURL(file);
+        }
+    }
+
     const form = useForm({
         name: props.product.name,
         description: props.product.description,
         price: props.product.price,
-        category: props.product.categorie_id
+        category: props.product.categorie_id,
+        img: props.product.img,
+        imgPreview: props.product.img ? `/storage/${props.product.img}` : null
     });
 
     const save = () => {
-        const res = form.put(route('products.update', props.product.id));
-        if (res) {
-            form.reset();
-        }
+        const res = form.put(route('products.update', props.product.id), {
+            forceFormData: true,
+            data: form,
+            onSuccess: () => {
+                form.reset();
+            },
+            onError: (errors) => {
+                console.error(error);
+            }
+        });
     }
 </script>

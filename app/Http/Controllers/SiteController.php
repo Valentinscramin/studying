@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categories;
+use App\Models\Products;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 // use Illuminate\Http\Request;
@@ -23,7 +25,7 @@ class SiteController extends Controller
 
     public function shop()
     {
-        return Inertia::render('Site/Shop');
+        return Inertia::render('Site/Shop', ['categories' => Categories::all()]);
     }
 
     public function about()
@@ -32,7 +34,7 @@ class SiteController extends Controller
     }
 
     public function contact()
-    { 
+    {
         return Inertia::render('Site/Contact');
     }
 }

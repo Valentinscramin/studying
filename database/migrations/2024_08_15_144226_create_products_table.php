@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->integer('categorie_id')->unsigned();
             $table->foreign('categorie_id')->references('id')->on('categories');
             $table->decimal('price', 10, 2);
+            $table->string('img');
             $table->timestamps();
         });
     }
