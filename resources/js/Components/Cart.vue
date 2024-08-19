@@ -16,11 +16,10 @@
                     </div>
                     <div class="col-lg-6 col-md-6 bg-white w-50">
                         <p>{{ item . name }}</p>
-                        <p>Unitario: R${{ item . price }}
-                            <input type="number" class="form-control" min="1" step="1" v-model="multiples"
-                                @change="updateBilling(item . price)" width="10px">
+                        <p>R${{ item . price }}
+                            <input type="number" class="form-control" min="1" step="1"
+                                v-model="item.quantity" @change="updateBilling(item)" width="10px">
                         </p>
-                        <p v-if="totalBillingProduct != 0 && totalBillingProduct != item . price">Total: R${{ totalBillingProduct }}</p>
                     </div>
                 </div>
                 <hr class="my-4">
@@ -30,7 +29,7 @@
             </div>
             <div class="row flex justify-between gap-1 mt-5">
                 <button class="btn btn-success">Comprar Agora</button>
-                <button class="btn btn-danger">Cancelar</button>
+                <button class="btn btn-danger" @click="cleanCart">Limpar Carrinho</button>
             </div>
         </div>
     </div>
@@ -51,35 +50,48 @@
 
     const products = ref([]);
 
-    const multiples = ref(1);
+    const cleanCart = () => {
+        removeCookie()
+    }
 
-    const totalBillingProduct = ref(0)
+    const updateBilling = (item) => {
+        item.price = item.price * item.quantity;
+    }
 
-    const updateBilling = (price) => {
-        totalBillingProduct.value = (price * multiples.value).toFixed(2);
+    const removeCookie = () => {
+        document.cookie = `products=; path=/; max-age=3600`; // 1 hour expiry
     }
 
     const readCookie = () => {
         const cookies = document.cookie.split("; ");
         const productCookie = cookies.find(row => row.startsWith('products='));
         if (productCookie) {
-            const jsonString = decodeURIComponent(productCookie.split("=")[1]);
+            let jsonString = decodeURIComponent(productCookie.split("=")[1]);
+
+            // Remove the last character if necessary (e.g., if there's a trailing comma or invalid character)
+            jsonString = jsonString.slice(0, -1);
+
+            // If the JSON is expected to be an array of objects, ensure it starts and ends with brackets
+            if (!jsonString.startsWith('[') && !jsonString.endsWith(']')) {
+                jsonString = `[${jsonString}]`;
+            }
+
             try {
-                return [JSON.parse(jsonString)];
+                return JSON.parse(jsonString);
             } catch (error) {
                 console.error('Erro ao analisar o JSON:', error);
             }
         } else {
             console.log('Cookie "products" não encontrado');
         }
-    }
+    };
 
     // Polling function to observe changes in the cookie
     let intervalId;
     const startPollingCookie = () => {
         intervalId = setInterval(() => {
             const newValue = readCookie('myCookie');
-            if (newValue !== products.value) {
+            if (newValue.length !== products.value.length) {
                 products.value = newValue;
             }
         }, 1000); // Check every second (adjust as needed)
