@@ -16,10 +16,11 @@
                     </div>
                     <div class="col-lg-6 col-md-6 bg-white w-50">
                         <p>{{ item . name }}</p>
-                        <p>{{ item . price > totalBillingProduct ? item . price : totalBillingProduct }}<input
-                                type="number" class="form-control" min="1" step="1" v-model="multiples"
-                                @change="updateBilling(item . price)">
+                        <p>Unitario: R${{ item . price }}
+                            <input type="number" class="form-control" min="1" step="1" v-model="multiples"
+                                @change="updateBilling(item . price)" width="10px">
                         </p>
+                        <p v-if="totalBillingProduct != 0 && totalBillingProduct != item . price">Total: R${{ totalBillingProduct }}</p>
                     </div>
                 </div>
                 <hr class="my-4">
@@ -40,7 +41,8 @@
         ref,
         defineProps,
         defineEmits,
-        onMounted
+        onMounted,
+        onUnmounted
     } from 'vue';
 
     const props = defineProps({
@@ -63,8 +65,7 @@
         if (productCookie) {
             const jsonString = decodeURIComponent(productCookie.split("=")[1]);
             try {
-                products.value = [JSON.parse(jsonString)]; // Parse JSON string to array
-                //console.log('Produtos:', products.value); // Verifique o conteúdo aqui
+                return [JSON.parse(jsonString)];
             } catch (error) {
                 console.error('Erro ao analisar o JSON:', error);
             }
@@ -73,9 +74,24 @@
         }
     }
 
+    // Polling function to observe changes in the cookie
+    let intervalId;
+    const startPollingCookie = () => {
+        intervalId = setInterval(() => {
+            const newValue = readCookie('myCookie');
+            if (newValue !== products.value) {
+                products.value = newValue;
+            }
+        }, 1000); // Check every second (adjust as needed)
+    };
+
     onMounted(() => {
-        readCookie();
+        startPollingCookie();
     })
+
+    onUnmounted(() => {
+        clearInterval(intervalId);
+    });
 
     const emit = defineEmits(['update:visible']);
 
