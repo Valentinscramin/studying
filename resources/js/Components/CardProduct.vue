@@ -22,7 +22,7 @@ import {
 
 const props = defineProps({
     data: {
-        type: Array,
+        type: Object,
         default: () => ({})
     }
 });
