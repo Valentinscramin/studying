@@ -25,7 +25,7 @@ class SiteController extends Controller
 
     public function shop()
     {
-        return Inertia::render('Site/Shop', ['categories' => Categories::all()]);
+        return Inertia::render('Site/Shop', ['categories' => Categories::where('active', 1)->get()]);
     }
 
     public function about()
