@@ -32,6 +32,7 @@
             'id': item.id,
             'name': item.name,
             'price': item.price,
+            'multiple_price': item.price,
             'quantity': 1,
             'img': item.img
         };

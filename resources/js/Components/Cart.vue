@@ -16,7 +16,7 @@
                     </div>
                     <div class="col-lg-6 col-md-6 bg-white w-50">
                         <p>{{ item . name }}</p>
-                        <p>R${{ item . price }}
+                        <p>R${{ item . multiple_price }}
                             <input type="number" class="form-control" min="1" step="1"
                                 v-model="item.quantity" @change="updateBilling(item)" width="10px">
                         </p>
@@ -25,7 +25,7 @@
                 <hr class="my-4">
             </div>
             <div class="row flex justify-end mt-1">
-                <div class="col-md-12 bg-white">Total:</div>
+                <div class="col-md-12 bg-white">Total: {{ totalBill }}</div>
             </div>
             <div class="row flex justify-between gap-1 mt-5">
                 <button class="btn btn-success">Comprar Agora</button>
@@ -55,8 +55,23 @@
     }
 
     const updateBilling = (item) => {
-        item.price = item.price * item.quantity;
+        item.multiple_price = item.price * item.quantity;
+        totalBill.value = updateTotalBill();
     }
+
+    const totalBill = ref(0);
+
+    const updateTotalBill = () => {
+        if (Array.isArray(products.value)) {
+            const total = products.value.reduce((sum, item) => {
+                return sum + parseFloat(item.multiple_price);
+            }, 0);
+            return total.toFixed(2);
+        } else {
+            console.error('Products is not an array:', products.value);
+            return 0;
+        }
+    };
 
     const removeCookie = () => {
         document.cookie = `products=; path=/; max-age=3600`; // 1 hour expiry
@@ -93,6 +108,7 @@
             const newValue = readCookie('myCookie');
             if (newValue.length !== products.value.length) {
                 products.value = newValue;
+                totalBill.value = updateTotalBill()
             }
         }, 1000); // Check every second (adjust as needed)
     };
