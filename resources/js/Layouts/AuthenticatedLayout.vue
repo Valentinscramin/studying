@@ -41,8 +41,15 @@
                                 </NavLink>
                             </div>
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink :href="route('categories.index')" :active="route().current('categories.index')">
+                                <NavLink :href="route('categories.index')"
+                                    :active="route().current('categories.index')">
                                     Categorias
+                                </NavLink>
+                            </div>
+                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink :href="route('orders.index')"
+                                    :active="route().current('orders.index')">
+                                    Pedidos
                                 </NavLink>
                             </div>
                         </div>
@@ -117,7 +124,8 @@
                             <div class="font-medium text-base text-gray-800">
                                 {{ $page . props . auth . user . name }}
                             </div>
-                            <div class="font-medium text-sm text-gray-500">{{ $page . props . auth . user . email }}</div>
+                            <div class="font-medium text-sm text-gray-500">{{ $page . props . auth . user . email }}
+                            </div>
                         </div>
 
                         <div class="mt-3 space-y-1">
