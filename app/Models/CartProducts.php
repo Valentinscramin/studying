@@ -12,6 +12,16 @@ class CartProducts extends Model
     protected $fillable = ['price', 'multiple_price', 'quantity', 'cart_id', 'product_id'];
     use HasFactory;
 
+    public function cart()
+    {
+        return $this->belongsTo(Cart::class, 'cart_id');
+    }
+
+    public function products()
+    {
+        return $this->hasOne(Products::class, 'id', 'product_id');
+    }
+
     public static function merge($cartId, $products)
     {
         $toCreate = [];

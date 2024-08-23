@@ -10,6 +10,7 @@ class OrdersController extends Controller
 {
     public function index()
     {
-        return Inertia::render('DashBoard/Orders/Home', ['orders' => Cart::all()]);
+        // dd(Cart::with(['cart_products'])->paginate(15));
+        return Inertia::render('DashBoard/Orders/Home', ['orders' => Cart::with(['cart_products', 'user', 'cart_products.products'])->paginate(15)]);
     }
 }
