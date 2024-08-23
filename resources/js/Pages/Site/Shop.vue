@@ -1,6 +1,5 @@
 <template>
-<SiteLayout>
-
+<SiteLayout :logged="logged">
     <Head title="Loja" />
     <h1>SHOP</h1>
     <div class="container">
@@ -27,7 +26,8 @@ import axios from 'axios';
 import CardProduct from '@/Components/CardProduct.vue';
 
 const props = defineProps({
-    categories: Object
+    categories: Object,
+    logged: Boolean
 });
 
 const isClicked = ref(false);

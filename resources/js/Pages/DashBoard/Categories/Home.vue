@@ -21,9 +21,7 @@
 </script>
 
 <template>
-
     <Head title="Categorias" />
-
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Categoria</h2>
